@@ -5,4 +5,4 @@ if [ -z "${DGBASEPATH}" ]; then
   exit
 fi
 
-for futils in "${DGBASEPATH}/src/"*.sh; do . "${futils}"; done
+for fsrc in "${DGBASEPATH}/src/"*.sh; do . "${fsrc}"; done

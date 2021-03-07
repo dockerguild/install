@@ -1,4 +1,4 @@
-# Shell utils
+# Docker webserver install
 
 ## Requirements
 
@@ -12,8 +12,11 @@
     if [ ! -d "${DGBASEPATH}" ]; then git clone https://github.com/dockerguild/install.git "${DGBASEPATH}"; fi
     . "${DGBASEPATH}/bootstrap.sh"
 
-    dg_title "Install Nginx"
-    dg_nginx_install
+    dg_title "Install docker"
+    dg_docker_install
+    
+    dg_title "Install docker-compose"
+    dg_docker_compose_install
 
 ## Components
 
