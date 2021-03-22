@@ -14,4 +14,5 @@ dg_vim_install () {
     printf '%b\n' "${shrc_config}" >> "/${HOME}/${shrcfile}"
     sudo sh -c "printf '%b\n' \"${shrc_config}\" >> \"/${HOME}/${shrcfile}\""
   fi
+  vim --version | head -n1
 }

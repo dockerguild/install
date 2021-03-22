@@ -1,7 +1,7 @@
 #!/bin/sh
 
 dg_iptables_install () {
-  if ! command -v iptables >/dev/null 2>&1; then
+  if [ ! -x /usr/sbin/iptables ]; then
     sudo apt-get install -y iptables
     sudo cp -vfr "${DGBASEPATH}/.install/iptables/"* /
     sudo iptables-restore -n /etc/iptables.conf

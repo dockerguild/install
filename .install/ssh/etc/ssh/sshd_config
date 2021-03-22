@@ -1,0 +1,13 @@
+Port 22022
+Protocol 2
+X11Forwarding no
+IgnoreRhosts yes
+UseDNS yes
+MaxAuthTries 3
+PubkeyAuthentication yes
+PasswordAuthentication no
+PermitEmptyPasswords no
+AllowUsers root debian
+PermitRootLogin prohibit-password
+PrintMotd yes
+AcceptEnv LANG LC_*

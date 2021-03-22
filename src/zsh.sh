@@ -9,4 +9,5 @@ dg_zsh_install () {
     sudo sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --skip-chsh </dev/null
     sudo sh -c "printf '%b\n' \"$(printf '%s' "${zshrc_config}" | sed 's/\(["$]\)/\\\1/g' | sed 's/yellow/red/g')\" >> \"${HOME}/.zshrc\""
   fi
+  zsh --version
 }

@@ -10,7 +10,7 @@ dg_certbot_install () {
 dg_certbot_generate_certonly () {
   certfile="/etc/letsencrypt/renewal/${1}.conf"
   if [ ! -f "${certfile}" ]; then
-    sudo certbot certonly --agree-tos --no-eff-email --no-redirect --email "${2}" -d "${1}"
+    sudo certbot certonly --agree-tos --no-eff-email --no-redirect --email "${2}" -d "${1}" -d "www.${1}"
   fi
   cat "${certfile}"
 }
@@ -18,7 +18,7 @@ dg_certbot_generate_certonly () {
 dg_certbot_generate_nginx () {
   certfile="/etc/letsencrypt/renewal/${1}.conf"
   if [ ! -f "${certfile}" ]; then
-    sudo certbot --nginx --agree-tos --no-eff-email --no-redirect --email "${2}" -d "${1}"
+    sudo certbot --nginx --agree-tos --no-eff-email --no-redirect --email "${2}" -d "${1}" -d "www.${1}"
   fi
   cat "${certfile}"
 }
