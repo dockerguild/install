@@ -1,4 +1,4 @@
-Port 22022
+Port 22
 Protocol 2
 X11Forwarding no
 IgnoreRhosts yes
