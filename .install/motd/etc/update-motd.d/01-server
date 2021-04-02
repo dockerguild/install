@@ -1,6 +1,6 @@
 #!/bin/sh
 
-file_message="${HOME}/.motd/message"
+file_message="/etc/motd.message"
 if [ -f "${file_message}" ]; then
   cat "${file_message}"
 fi
@@ -24,3 +24,5 @@ if command -v docker >/dev/null 2>&1; then
       fi
   done
 fi
+
+printf "\n"
