@@ -11,7 +11,7 @@ dg_ssh_install () {
     sudo cp "${file}" "${file}.save"
     sudo cp -vfr "${DGBASEPATH}/.install/ssh/"* /
     if [ -n "${1}" ]; then
-      sudo sed -i "s/22/${1}/g" "${file}"
+      sudo sed -i "s/^\(Port.*\) 22$/\1 ${1}/g" "${file}"
     fi
     sudo service ssh restart
   fi

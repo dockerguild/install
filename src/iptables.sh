@@ -10,9 +10,11 @@ dg_iptables_install () {
   if [ ! -f "${file}" ]; then
     sudo cp -vfr "${DGBASEPATH}/.install/iptables/"* /
     if [ -n "${1}" ]; then
-      sudo sed -i "s/127.0.0.1/${1}/g" "${file}"
+      sudo sed -i "s/ \(FILTERS.\+\) 127.0.0.1 / \1 ${1} /g" "${file}"
     fi
-    sudo iptables-restore -n "${file}"
+    if [ -n "${2}" ]; then
+      sudo sed -i "s/ \(FILTERS.\+\) 22 / \1 ${2} /g" "${file}"
+    fi
     sudo systemctl enable --now iptables
     sudo systemctl restart iptables
   fi

@@ -11,6 +11,7 @@ dg_vim_install () {
     cp "${file}" "${file}.save"
     cp -v "${DGBASEPATH}/.install/home/.vimrc" "${file}"
     printf 'export EDITOR="vim"\n' >> "${HOME}/.profile"
+    sudo cp -v "${DGBASEPATH}/.install/home/.vimrc" "/root/.vimrc"
   fi
 
   vim --version | head -n1
