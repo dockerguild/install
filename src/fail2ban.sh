@@ -11,7 +11,10 @@ dg_fail2ban_install () {
     sudo cp "${file}" "${file}.save"
     sudo cp -vfr "${DGBASEPATH}/.install/fail2ban/"* /
     if [ -n "${1}" ]; then
-      sudo sed -i "s/127.0.0.1/${1}/g" "${file}"
+      sudo sed -i "s/^\(ignoreip\s*=\s*\) 127.0.0.1$/\1 ${1}/g" "${file}"
+    fi
+    if [ -n "${2}" ]; then
+      sudo sed -i "s/^\(port\s*=\s*\) 22$/\1 ${2}/g" "${file}"
     fi
     sudo service fail2ban restart
   fi
