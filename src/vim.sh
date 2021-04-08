@@ -8,7 +8,10 @@ dg_vim_install () {
   fi
 
   if [ ! -f "${file}.save" ]; then
-    cp "${file}" "${file}.save"
+    touch "${file}.save"
+    if [ -f "${file}" ]; then
+      cp -v "${file}" "${file}.save"
+    fi
     cp -v "${DGBASEPATH}/.install/home/.vimrc" "${file}"
     printf 'export EDITOR="vim"\n' >> "${HOME}/.profile"
     sudo cp -v "${DGBASEPATH}/.install/home/.vimrc" "/root/.vimrc"

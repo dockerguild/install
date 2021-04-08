@@ -6,15 +6,30 @@ if [ -f "${file_message}" ]; then
 fi
 
 if [ -x /usr/sbin/nginx ]; then
-  printf "\nListe des environnements\n"
+  printf "\nEnvironments\n"
   printf "%s\n" '-------------------------------------'
   find /home/www -mindepth 1 -maxdepth 1 -type d | while read -r line ; do
     printf " - %s\n" "$(basename "${line}")"
   done
 fi
 
+printf "\nStack\n"
+printf "%s\n" '-------------------------------------'
+if [ -x /usr/sbin/nginx ]; then
+  printf " - Nginx: %s\n" "$(/usr/sbin/nginx -V 2>&1 | head -n1 | grep -o '[0-9.]*$')"
+fi
+if command -v php >/dev/null 2>&1; then
+  printf " - PHP: %s\n" "$($(command -v php) --version | head -n1 | cut -d' ' -f2 | cut -d'-' -f1)"
+fi
+if command -v mysql >/dev/null 2>&1; then
+  printf " - MySQL: %s\n" "$($(command -v mysql) --version | awk '{ print $5 }' | awk -F\, '{ print $1 }')"
+fi
 if command -v docker >/dev/null 2>&1; then
-  printf "\nListe des containers\n"
+  printf " - Docker: %s\n" "$($(command -v docker) --version | awk '{ print $3 }' | grep -o '[0-9.]*')"
+fi
+
+if command -v docker >/dev/null 2>&1; then
+  printf "\nContainers\n"
   printf "%s\n" '-------------------------------------'
   docker ps -a --format "{{.Names}}: {{.Status}}" | while read -r line ; do
       if echo "${line}" | grep -q " Up " >/dev/null 2>&1; then

@@ -8,7 +8,10 @@ dg_fail2ban_install () {
   fi
 
   if [ ! -f "${file}.save" ]; then
-    sudo cp "${file}" "${file}.save"
+    touch "${file}.save"
+    if [ -f "${file}" ]; then
+      cp -v "${file}" "${file}.save"
+    fi
     sudo cp -vfr "${DGBASEPATH}/.install/fail2ban/"* /
     if [ -n "${1}" ]; then
       sudo sed -i "s/^\(ignoreip\s*=\s*\) 127.0.0.1$/\1 ${1}/g" "${file}"

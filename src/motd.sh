@@ -1,7 +1,7 @@
 #!/bin/sh
 
 dg_motd_install () {
-  file=/etc/update-motd.d/01-server
+  file=/etc/update-motd.d/10-server
 
   if [ ! -f "${file}" ]; then
     sudo sh -c 'echo "" > /etc/motd'

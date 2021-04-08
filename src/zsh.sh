@@ -10,7 +10,10 @@ dg_zsh_install () {
   fi
 
   if [ ! -f "${file}.save" ]; then
-    cp "${file}" "${file}.save"
+    touch "${file}.save"
+    if [ -f "${file}" ]; then
+      cp -v "${file}" "${file}.save"
+    fi
     cp -v "${DGBASEPATH}/.install/home/.zshrc" "${file}"
   fi
 

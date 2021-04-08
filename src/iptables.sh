@@ -22,3 +22,9 @@ dg_iptables_install () {
   sudo iptables --version
   sudo iptables -vnL
 }
+
+dg_iptables_restore () {
+  sudo iptables-restore -n /etc/iptables.conf
+  sudo systemctl restart iptables
+  sudo iptables -vnL
+}

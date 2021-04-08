@@ -9,5 +9,6 @@ PasswordAuthentication no
 PermitEmptyPasswords no
 AllowUsers root debian
 PermitRootLogin prohibit-password
-PrintMotd yes
+UsePAM yes
+PrintMotd no
 AcceptEnv LANG LC_*
