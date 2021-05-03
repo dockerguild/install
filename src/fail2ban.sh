@@ -8,9 +8,9 @@ dg_fail2ban_install () {
   fi
 
   if [ ! -f "${file}.save" ]; then
-    touch "${file}.save"
+    sudo touch "${file}.save"
     if [ -f "${file}" ]; then
-      cp -v "${file}" "${file}.save"
+      sudo cp -v "${file}" "${file}.save"
     fi
     sudo cp -vfr "${DGBASEPATH}/.install/fail2ban/"* /
     if [ -n "${1}" ]; then
