@@ -5,10 +5,20 @@ if [ -f "${file_message}" ]; then
   cat "${file_message}"
 fi
 
+printf "\nLast commands\n"
+printf "%s\n" '-------------------------------------'
+tail /home/*/.zsh_history | awk -F ';' '{ print $2 }' | while IFS='' read -r line ; do
+  if echo "${line}" | grep -q "sudo\|rm" >/dev/null 2>&1; then
+    printf " - %b\n" "\\033[0;31m${line}\\033[0m"
+  else
+    printf " - %b\n" "${line}"
+  fi
+done
+
 if [ -x /usr/sbin/nginx ]; then
   printf "\nEnvironments\n"
   printf "%s\n" '-------------------------------------'
-  find /home/www -mindepth 1 -maxdepth 1 -type d | while read -r line ; do
+  find /home/www -mindepth 1 -maxdepth 1 -type d | while IFS='' read -r line ; do
     printf " - %s\n" "$(basename "${line}")"
   done
 fi
@@ -31,13 +41,29 @@ fi
 if command -v docker >/dev/null 2>&1; then
   printf "\nContainers\n"
   printf "%s\n" '-------------------------------------'
-  docker ps -a --format "{{.Names}}: {{.Status}}" | while read -r line ; do
-      if echo "${line}" | grep -q " Up " >/dev/null 2>&1; then
-          printf " - %b\n" "$(echo "${line}" | sed 's/^\(.\+\):\(.\+\)$/\1:\\033[0;32m\2\\033[0m/g')"
-      else
-          printf " - %b\n" "$(echo "${line}" | sed 's/^\(.\+\):\(.\+\)$/\1:\\033[0;31m\2\\033[0m/g')"
-      fi
+  docker ps -a --format "{{.Names}}: {{.Status}}" | while IFS='' read -r line ; do
+    if echo "${line}" | grep -q " Up " >/dev/null 2>&1; then
+      printf " - %b\n" "$(echo "${line}" | sed 's/^\(.\+\):\(.\+\)$/\1:\\033[0;32m\2\\033[0m/g')"
+    else
+      printf " - %b\n" "$(echo "${line}" | sed 's/^\(.\+\):\(.\+\)$/\1:\\033[0;31m\2\\033[0m/g')"
+    fi
   done
 fi
+
+printf "\nDisk space\n"
+printf "%s\n" '-------------------------------------'
+df -h | tail -n +2 | grep -v "overlay\|tmpfs\|udev" | while IFS='' read -r line ; do
+  disk=$(echo "${line}" | awk '{ print $1 }' | sed 's/%//g')
+  space_total=$(echo "${line}" | awk '{ print $2 }' | sed 's/%//g')
+  space_used=$(echo "${line}" | awk '{ print $3 }' | sed 's/%//g')
+  percent=$(echo "${line}" | awk '{ print $5 }' | sed 's/%//g')
+  if [ "${percent}" -gt 75 ]; then
+    printf " - %b\n" "${disk}: \\033[0;31m${percent}%\\033[0m (${space_used}/${space_total})"
+  elif [ "${percent}" -gt 50 ]; then
+    printf " - %b\n" "${disk}: \\033[0;33m${percent}%\\033[0m (${space_used}/${space_total})"
+  else
+    printf " - %b\n" "${disk}: \\033[0;32m${percent}%\\033[0m (${space_used}/${space_total})"
+  fi
+done
 
 printf "\n"
