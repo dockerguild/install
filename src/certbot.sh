@@ -2,7 +2,7 @@
 
 dg_certbot_install () {
   if ! command -v certbot >/dev/null 2>&1; then
-    sudo apt-get install -y certbot python-certbot-nginx
+    sudo apt-get install -y certbot python3-certbot-nginx
   fi
   certbot --version
 }
